@@ -1,7 +1,14 @@
 
 
 .PHONY : all
-all : bindir
+all : build test
+
+.PHONY : test
+test :
+	go test
+
+.PHONY : build
+build: bindir
 	go build -o ./bin/hbd
 
 .PHONY: bindir
