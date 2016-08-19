@@ -30,7 +30,7 @@ func main() {
 	if arguments["x"] == true {
 		number, err = getFromHex(strNumber)
 	} else if arguments["d"] == true {
-		number = getFromDec(strNumber)
+		number, err = getFromDec(strNumber)
 	} else if arguments["b"] == true {
 		number = getFromBin(strNumber)
 	} else {
