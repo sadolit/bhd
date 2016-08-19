@@ -6,4 +6,4 @@ all : bindir
 
 .PHONY: bindir
 bindir:
-	@mkdir bin
+	@mkdir -p bin
