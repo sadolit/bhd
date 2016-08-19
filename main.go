@@ -40,5 +40,5 @@ func main() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	fmt.Println(number)
+	fmt.Printf("\nDecimal: %d\nHexadecimal: 0x%X\nBinary: %b\n\n", number, number, number)
 }
