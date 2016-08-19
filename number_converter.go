@@ -6,34 +6,27 @@ import (
 	"strings"
 )
 
-func getFromHex(hexStr string) (uint32, error) {
-	if hexStr == "" {
+func getFromNumericalSystem(str string, system int, prefix string) (uint32, error) {
+	if str == "" {
 		return 0x0, nil
 	}
-	hexStr = strings.TrimPrefix(hexStr, "0x")
-	if strings.HasPrefix(hexStr, "0x") || strings.HasPrefix(hexStr, "0d") || strings.HasPrefix(hexStr, "0b") {
+	str = strings.TrimPrefix(str, prefix)
+	if strings.HasPrefix(str, "0x") || strings.HasPrefix(str, "0d") || strings.HasPrefix(str, "0b") {
 		return 0, errors.New("Incorrect format")
 	}
-	conv, err := strconv.ParseUint(hexStr, 16, 32)
+	conv, err := strconv.ParseUint(str, system, 32)
 	if err != nil {
 		return 0, err
 	}
 	return uint32(conv), nil
 }
 
+func getFromHex(hexStr string) (uint32, error) {
+	return getFromNumericalSystem(hexStr, 16, "0x")
+}
+
 func getFromDec(decStr string) (uint32, error) {
-	if decStr == "" {
-		return 0x0, nil
-	}
-	decStr = strings.TrimPrefix(decStr, "0x")
-	if strings.HasPrefix(decStr, "0x") || strings.HasPrefix(decStr, "0d") || strings.HasPrefix(decStr, "0b") {
-		return 0, errors.New("Incorrect format")
-	}
-	conv, err := strconv.ParseUint(decStr, 10, 32)
-	if err != nil {
-		return 0, err
-	}
-	return uint32(conv), nil
+	return getFromNumericalSystem(decStr, 10, "0d")
 }
 
 func getFromBin(binStr string) uint32 {
