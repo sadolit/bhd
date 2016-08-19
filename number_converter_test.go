@@ -34,6 +34,22 @@ var decTestData = []struct {
 	{"214748364712", 0, true},
 }
 
+var binTestData = []struct {
+	arg         string
+	expectedVal uint32
+	hasErr      bool
+}{
+	{"", 0, false},
+	{"0", 0, false},
+	{"00001", 1, false},
+	{"10", 0x2, false},
+	{"11", 0x3, false},
+	{"0b11", 0x3, false},
+	{"12", 0, true},
+	{"214748364712", 0, true},
+	{"111111110000000011110000000011111", 0, true},
+}
+
 func TestGetFromHex(t *testing.T) {
 	for _, tt := range hexTestData {
 		out, err := getFromHex(tt.arg)
@@ -47,9 +63,15 @@ func TestGetFromDec(t *testing.T) {
 	for _, tt := range decTestData {
 		out, err := getFromDec(tt.arg)
 		if (out != tt.expectedVal) || ((err == nil) == tt.hasErr) {
-			t.Errorf("hexTestData(%q) => 0x%X, expected 0x%X. Should have error: %t, actual error: %q", tt.arg, out, tt.expectedVal, tt.hasErr, err)
+			t.Errorf("decTestData(%q) => 0x%X, expected 0x%X. Should have error: %t, actual error: %q", tt.arg, out, tt.expectedVal, tt.hasErr, err)
 		}
 	}
 }
 func TestGetFromBin(t *testing.T) {
+	for _, tt := range binTestData {
+		out, err := getFromBin(tt.arg)
+		if (out != tt.expectedVal) || ((err == nil) == tt.hasErr) {
+			t.Errorf("binTestData(%q) => 0x%X, expected 0x%X. Should have error: %t, actual error: %q", tt.arg, out, tt.expectedVal, tt.hasErr, err)
+		}
+	}
 }

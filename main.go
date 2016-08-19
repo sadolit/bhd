@@ -32,7 +32,7 @@ func main() {
 	} else if arguments["d"] == true {
 		number, err = getFromDec(strNumber)
 	} else if arguments["b"] == true {
-		number = getFromBin(strNumber)
+		number, err = getFromBin(strNumber)
 	} else {
 		panic("Choose x, b, or d")
 	}

@@ -29,6 +29,6 @@ func getFromDec(decStr string) (uint32, error) {
 	return getFromNumericalSystem(decStr, 10, "0d")
 }
 
-func getFromBin(binStr string) uint32 {
-	return 0
+func getFromBin(binStr string) (uint32, error) {
+	return getFromNumericalSystem(binStr, 2, "0b")
 }
