@@ -3,17 +3,26 @@ package main
 import "testing"
 
 var hexTestData = []struct {
-	arg      string
-	expected int
+	arg         string
+	expectedVal uint32
+	hasErr      bool
 }{
-	{"", 0},
+	{"", 0, false},
+	{"0", 0, false},
+	{"00000", 0, false},
+	{"FF", 0xFF, false},
+	{"10", 0x10, false},
+	{"0x1A", 0x1A, false},
+	{"0xFFF1", 0xFFF1, false},
+	{"DEADBEEF", 0xDEADBEEF, false},
+	{"0xDEADBEEFDEADBEEF", 0, true},
 }
 
 func TestGetFromHex(t *testing.T) {
 	for _, tt := range hexTestData {
-		out := getFromHex(tt.arg)
-		if out != tt.expected {
-			t.Errorf("hexTestData(%q) => %q, expected %q", tt.arg, out, tt.expected)
+		out, err := getFromHex(tt.arg)
+		if (out != tt.expectedVal) || ((err == nil) == tt.hasErr) {
+			t.Errorf("hexTestData(%q) => 0x%X, expected 0x%X. Should have error: %t, actual error: %q", tt.arg, out, tt.expectedVal, tt.hasErr, err)
 		}
 	}
 

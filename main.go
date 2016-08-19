@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/docopt/docopt-go"
 )
@@ -24,15 +25,20 @@ func main() {
 	var strNumber string
 	arguments, _ := docopt.Parse(usage, nil, true, "Naval Fate 2.0", false)
 	strNumber = arguments["<number>"].(string)
-	var number int
+	var number uint32
+	var err error
 	if arguments["x"] == true {
-		number = getFromHex(strNumber)
+		number, err = getFromHex(strNumber)
 	} else if arguments["d"] == true {
 		number = getFromDec(strNumber)
 	} else if arguments["b"] == true {
 		number = getFromBin(strNumber)
 	} else {
 		panic("Choose x, b, or d")
+	}
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
 	}
 	fmt.Println(number)
 }
